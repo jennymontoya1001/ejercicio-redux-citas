@@ -1,6 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {BorrarCita} from '../actions/actions';
 
 export const ListarCitas = () => {
+
+    const { citas } = useSelector(store => store.citas);
+    const dispatch = useDispatch();
+
+    const handleDelete = id => {
+        dispatch(BorrarCita(id))
+    }
+
+
     return (
         <div className="card mt-5">
             <div className="card-body">
@@ -12,21 +23,26 @@ export const ListarCitas = () => {
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Hora</th>
-                                <th scope="col">Fractura</th>
+                                <th scope="col">Síntomas</th>
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Nombre</td>
-                                <td>Fecha</td>
-                                <td>Hora</td>
-                                <td>Sintomas</td>
-                                <td><button className="btn btn-danger">
-                                    Borrar &times;
-                                </button>
-                                </td>
-                            </tr>
+                            {
+                                citas.map(cita => (
+                                    <tr key={cita.id}>
+                                        <td>{cita.nombre}</td>
+                                        <td>{cita.fecha}</td>
+                                        <td>{cita.hora}</td>
+                                        <td>{cita.sintomas}</td>
+                                        <td><button className="btn btn-danger"
+                                        onClick={() => handleDelete(cita.id)}>
+                                            Borrar &times;
+                                        </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </table>
                 </div>

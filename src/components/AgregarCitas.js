@@ -1,10 +1,44 @@
-import React from 'react'
+import React from 'react';
+import {useForm} from '../hooks/useForm';
+import { useDispatch } from 'react-redux';
+import {AgregarCita} from '../actions/actions';
+import uuid from 'react-uuid';
 
 const AgregarCitas = () => {
+
+const [ formValue, handleInputChange, reset] = useForm({
+    nombre: '',
+    fecha: '',
+    hora: '',
+    sintomas: ''
+})
+
+  const {nombre,fecha,hora,sintomas} = formValue;
+
+  const dispath = useDispatch();
+  const nuevaCita = (cita) =>{
+        dispath(AgregarCita(cita))
+  }
+
+  const handleSubmit = e =>{
+      e.preventDefault();
+
+      reset();
+
+      //action payload
+      nuevaCita({
+          id: uuid(),
+          nombre,
+          fecha,
+          hora,
+          sintomas
+      })
+  }
+
     return (
         <div className="card mt-5">
             <div className="card-body">
-                <form>
+                <form onSubmit={handleSubmit}>
                     <h1> Agregar Citas</h1>
                     <hr />
 
@@ -13,11 +47,12 @@ const AgregarCitas = () => {
                         <div className="mb-4 mb-lg-0">
                             <input
                                 type="text"
-                                name="name"
+                                name="nombre"
                                 className="form-control"
                                 placeholder="Tu nombre"
                                 autoComplete="off"
-
+                                value={nombre}
+                                onChange={handleInputChange}
                             />
                         </div>
                     </div>
@@ -30,7 +65,8 @@ const AgregarCitas = () => {
                                 name="fecha"
                                 className="form-control"
                                 autoComplete="off"
-
+                                value={fecha}
+                                onChange={handleInputChange}
                             />
                         </div>
 
@@ -41,7 +77,8 @@ const AgregarCitas = () => {
                                 name="hora"
                                 className="form-control"
                                 autoComplete="off"
-
+                                value={hora}
+                                onChange={handleInputChange}
                             />
                         </div>
                     </div>
@@ -49,10 +86,11 @@ const AgregarCitas = () => {
                         <label className="col-sm-4 col-lg-2 col-form-label">Sintomas</label>
                         <div className="form-group">
                             <textarea
-                                name="fractura"
+                                name="sintomas"
                                 className="form-control"
-                                autoComplete="off">
-
+                                autoComplete="off"
+                                value={sintomas}
+                                onChange={handleInputChange}>
                             </textarea>
                         </div>
                     </div>

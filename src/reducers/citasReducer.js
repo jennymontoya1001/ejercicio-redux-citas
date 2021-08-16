@@ -8,11 +8,13 @@ export const citasReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.agregar:
             return {
-                ...state
+                ...state,
+                citas: [...state.citas, action.payload]
             }
         case types.borrar:
             return {
-                ...state
+                ...state,
+                citas: state.citas.filter(cita => cita.id !== action.payload)
             }
         default:
             return state
