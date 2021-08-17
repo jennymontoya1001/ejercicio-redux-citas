@@ -14,7 +14,7 @@ export const citasReducer = (state = initialState, action) => {
         case types.borrar:
             return {
                 ...state,
-                citas: state.citas.filter(cita => cita.id !== action.payload)
+                citas: state.citas.find(cita => cita.id === action.payload)
             }
         default:
             return state
